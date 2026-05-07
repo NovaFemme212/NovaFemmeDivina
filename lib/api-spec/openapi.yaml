@@ -1,0 +1,545 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Nova Femme - Wellness App API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: affirmations
+    description: Affirmation cards
+  - name: rituals
+    description: Self-care habits tracking
+  - name: dreams
+    description: Dream journal
+  - name: journal
+    description: Soul journal (Zapiski Duszy)
+  - name: dashboard
+    description: Dashboard summary
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /affirmations/today:
+    get:
+      operationId: getTodayAffirmation
+      tags: [affirmations]
+      summary: Get the affirmation card for today
+      responses:
+        "200":
+          description: Today's affirmation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Affirmation"
+
+  /affirmations/random:
+    get:
+      operationId: getRandomAffirmation
+      tags: [affirmations]
+      summary: Get a random affirmation card
+      responses:
+        "200":
+          description: Random affirmation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Affirmation"
+
+  /rituals:
+    get:
+      operationId: listRituals
+      tags: [rituals]
+      summary: List all rituals
+      responses:
+        "200":
+          description: List of rituals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ritual"
+
+    post:
+      operationId: createRitual
+      tags: [rituals]
+      summary: Create a new ritual
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRitualBody"
+      responses:
+        "201":
+          description: Ritual created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ritual"
+
+  /rituals/{id}:
+    patch:
+      operationId: updateRitual
+      tags: [rituals]
+      summary: Update a ritual (toggle completion, edit name)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateRitualBody"
+      responses:
+        "200":
+          description: Updated ritual
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ritual"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: deleteRitual
+      tags: [rituals]
+      summary: Delete a ritual
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /rituals/streak:
+    get:
+      operationId: getRitualStreak
+      tags: [rituals]
+      summary: Get current ritual streak and stats
+      responses:
+        "200":
+          description: Streak info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RitualStreak"
+
+  /dreams:
+    get:
+      operationId: listDreams
+      tags: [dreams]
+      summary: List all dream journal entries
+      responses:
+        "200":
+          description: List of dreams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Dream"
+
+    post:
+      operationId: createDream
+      tags: [dreams]
+      summary: Create a new dream entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDreamBody"
+      responses:
+        "201":
+          description: Dream created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dream"
+
+  /dreams/{id}:
+    patch:
+      operationId: updateDream
+      tags: [dreams]
+      summary: Update a dream entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDreamBody"
+      responses:
+        "200":
+          description: Updated dream
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dream"
+
+    delete:
+      operationId: deleteDream
+      tags: [dreams]
+      summary: Delete a dream entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /journal:
+    get:
+      operationId: listJournalEntries
+      tags: [journal]
+      summary: List all Zapiski Duszy entries
+      responses:
+        "200":
+          description: List of journal entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JournalEntry"
+
+    post:
+      operationId: createJournalEntry
+      tags: [journal]
+      summary: Create a new journal entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateJournalEntryBody"
+      responses:
+        "201":
+          description: Journal entry created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntry"
+
+  /journal/{id}:
+    patch:
+      operationId: updateJournalEntry
+      tags: [journal]
+      summary: Update a journal entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateJournalEntryBody"
+      responses:
+        "200":
+          description: Updated entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntry"
+
+    delete:
+      operationId: deleteJournalEntry
+      tags: [journal]
+      summary: Delete a journal entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get dashboard summary (streak, today's affirmation, recent entries)
+      responses:
+        "200":
+          description: Dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dashboard"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    Affirmation:
+      type: object
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        author:
+          type: ["string", "null"]
+        category:
+          type: string
+          description: "femininity, strength, peace, self-love"
+      required:
+        - id
+        - text
+        - category
+
+    Ritual:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        emoji:
+          type: string
+        completedToday:
+          type: boolean
+        completedDates:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - emoji
+        - completedToday
+        - completedDates
+        - createdAt
+
+    CreateRitualBody:
+      type: object
+      properties:
+        name:
+          type: string
+        emoji:
+          type: string
+      required:
+        - name
+        - emoji
+
+    UpdateRitualBody:
+      type: object
+      properties:
+        name:
+          type: string
+        emoji:
+          type: string
+        completedToday:
+          type: boolean
+
+    RitualStreak:
+      type: object
+      properties:
+        currentStreak:
+          type: integer
+        longestStreak:
+          type: integer
+        totalCompleted:
+          type: integer
+        todayCount:
+          type: integer
+        todayTotal:
+          type: integer
+      required:
+        - currentStreak
+        - longestStreak
+        - totalCompleted
+        - todayCount
+        - todayTotal
+
+    Dream:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        description:
+          type: string
+        feeling:
+          type: string
+          description: "Emoji representing dream emotion"
+        tags:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - date
+        - description
+        - feeling
+        - tags
+        - createdAt
+
+    CreateDreamBody:
+      type: object
+      properties:
+        date:
+          type: string
+        description:
+          type: string
+        feeling:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - date
+        - description
+        - feeling
+
+    UpdateDreamBody:
+      type: object
+      properties:
+        date:
+          type: string
+        description:
+          type: string
+        feeling:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    JournalEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+        mood:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - content
+        - createdAt
+        - updatedAt
+
+    CreateJournalEntryBody:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        mood:
+          type: ["string", "null"]
+      required:
+        - title
+        - content
+
+    UpdateJournalEntryBody:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        mood:
+          type: ["string", "null"]
+
+    Dashboard:
+      type: object
+      properties:
+        todayAffirmation:
+          $ref: "#/components/schemas/Affirmation"
+        streak:
+          $ref: "#/components/schemas/RitualStreak"
+        recentDreams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Dream"
+        recentJournal:
+          type: array
+          items:
+            $ref: "#/components/schemas/JournalEntry"
+        completedRitualsToday:
+          type: integer
+        totalRituals:
+          type: integer
+      required:
+        - todayAffirmation
+        - streak
+        - recentDreams
+        - recentJournal
+        - completedRitualsToday
+        - totalRituals
