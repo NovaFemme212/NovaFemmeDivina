@@ -10,6 +10,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "esbuild": "^0.27.3",
     "@clerk/express": "^2.0.8",
     "@workspace/api-zod": "../lib/api-zod",
     "@workspace/db": "../lib/db",
