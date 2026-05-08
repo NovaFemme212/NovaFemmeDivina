@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: NovaFemmeDivina
+    env: static
+    rootDir: artifacts/nova-femme
+    buildCommand: npm install -g pnpm@9 && pnpm install --no-frozen-lockfile && pnpm run build
+    staticPublishPath: dist
