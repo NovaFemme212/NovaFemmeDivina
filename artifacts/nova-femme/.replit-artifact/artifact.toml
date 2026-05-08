@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Nova Femme - Celebracja Boskiej Kobiecości"
+version = "1.0.0"
+id = "artifacts/nova-femme"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19451
+
+[services.development]
+run = "pnpm --filter @workspace/nova-femme run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nova-femme", "run", "build" ]
+publicDir = "artifacts/nova-femme/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19451"
+BASE_PATH = "/"
