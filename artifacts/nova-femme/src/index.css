@@ -442,7 +442,8 @@
   max-width: 480px;
   height: auto;
   border-radius: 0.875rem;
-  object-fit: cover;
+  object-fit: contain;
+  max-height: 700px;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -812,7 +813,8 @@
   max-width: 340px;
   height: auto;
   border-radius: 0.875rem;
-  object-fit: cover;
+  object-fit: contain;
+  max-height: 700px;
   user-select: none;
   -webkit-user-drag: none;
 }
