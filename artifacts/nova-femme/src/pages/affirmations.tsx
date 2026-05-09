@@ -23,7 +23,7 @@ const CARD_IMAGES = [
   "czakra1.png", "czakra2.png", "czakra3.png", "czakra4.png",
   "czakra5.png", "czakra6.png", "czakra7.png",
   // Transformacja / Inspiracje
-  "milbzwr.png", "nowe.png", "poloc.png", "wsparcie.png", "zmia.png",
+  "milbzwr.png", "nowe.png", "poloc.png", "wsparcie.png", "zmia.png", "ego.png", "czas.png",
 ].map((f) => `${BASE}cards/${f}`);
 
 type Phase = "idle" | "out" | "glow" | "in";
