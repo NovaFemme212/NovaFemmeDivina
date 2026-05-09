@@ -64,7 +64,7 @@ function LegacyClaimer() {
     claimedRef.current = userId;
     getToken().then(token => {
       if (!token) return;
-      return fetch("/api/claim-legacy", {
+      return fetch((import.meta.env.VITE_API_URL ?? "") + "/api/claim-legacy", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -195,7 +195,7 @@ export default function RitualsPage() {
     (async () => {
       try {
         const token = await getToken();
-        await fetch("/api/rituals/seed", {
+        await fetch((import.meta.env.VITE_API_URL ?? "") + "/api/rituals/seed", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
