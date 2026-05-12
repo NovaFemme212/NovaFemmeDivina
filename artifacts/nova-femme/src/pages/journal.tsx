@@ -300,7 +300,7 @@ export default function JournalPage() {
                       </div>
 
                       {/* Action icons — appear on hover */}
-                      <div className="flex gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex gap-2 shrink-0 opacity-0 group-hover:opacity-100 max-sm:opacity-100 transition-opacity">
                         <button
                           onClick={() => startEdit(entry)}
                           className="text-muted-foreground hover:text-primary transition-colors p-1"
