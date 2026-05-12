@@ -199,7 +199,7 @@ export default function DreamsPage() {
                   {/* Delete — visible on hover */}
                   <button
                     onClick={() => handleDelete(dream.id)}
-                    className="shrink-0 text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100 max-sm:opacity-100"
+                    className="shrink-0 text-destructive transition-colors"
                     data-testid={`button-delete-dream-${dream.id}`}
                   >
                     <Trash2 className="w-4 h-4" />
