@@ -301,7 +301,7 @@ export default function DreamsPage() {
                       </button>
                       <button
                         onClick={() => handleDelete(dream.id)}
-                        className="text-destructive transition-colors"
+                        className="text-muted-foreground hover:text-foreground transition-colors"
                         data-testid={`button-delete-dream-${dream.id}`}
                       >
                         <Trash2 className="w-4 h-4" />
