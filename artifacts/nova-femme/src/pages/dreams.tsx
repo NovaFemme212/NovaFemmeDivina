@@ -3,11 +3,12 @@ import {
   useListDreams,
   useCreateDream,
   useDeleteDream,
+  useUpdateDream,
   getListDreamsQueryKey,
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Layout } from "@/components/layout";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Pencil } from "lucide-react";
 
 const FEELING_EMOJIS = ["✨", "🌙", "💫", "🌊", "🌸", "😌", "😴", "🌀", "🔮", "🌈", "🦋", "🌺", "💭", "🌟", "🕊️", "🌌", "😇", "❤️"];
 
@@ -29,12 +30,20 @@ export default function DreamsPage() {
   const { data: dreams = [], isLoading } = useListDreams();
   const createDream = useCreateDream();
   const deleteDream = useDeleteDream();
+  const updateDream = useUpdateDream();
 
+  // --- nowy sen ---
   const [showForm, setShowForm] = useState(false);
   const today = () => new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(today);
   const [description, setDescription] = useState("");
   const [feeling, setFeeling] = useState("🌙");
+
+  // --- edycja snu ---
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editDate, setEditDate] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editFeeling, setEditFeeling] = useState("🌙");
 
   const handleCreate = () => {
     if (!description.trim()) return;
@@ -56,6 +65,25 @@ export default function DreamsPage() {
     deleteDream.mutate(
       { id },
       { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListDreamsQueryKey() }) }
+    );
+  };
+
+  const startEdit = (dream: { id: number; date: string; description: string; feeling?: string | null }) => {
+    setEditingId(dream.id);
+    setEditDate(dream.date);
+    setEditDescription(dream.description);
+    setEditFeeling(dream.feeling || "🌙");
+  };
+
+  const handleUpdate = (id: number) => {
+    updateDream.mutate(
+      { id, data: { date: editDate, description: editDescription.trim(), feeling: editFeeling } },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: getListDreamsQueryKey() });
+          setEditingId(null);
+        },
+      }
     );
   };
 
@@ -172,39 +200,115 @@ export default function DreamsPage() {
                 style={{ animationDelay: `${120 + i * 60}ms` }}
                 data-testid={`card-dream-${dream.id}`}
               >
-                <div className="flex items-start gap-4">
-                  {/* Feeling emoji */}
-                  <span className="text-4xl shrink-0 mt-1">{dream.feeling}</span>
+                {editingId === dream.id ? (
+                  /* ── Tryb edycji ── */
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span style={{ color: "#D4AF37", fontSize: "0.7rem", letterSpacing: "0.4em", opacity: 0.7 }}>✦ · ✦</span>
+                    </div>
 
-                  <div className="flex-1 min-w-0">
-                    {/* Date */}
-                    <p className="text-xs font-sans mb-2" style={{ color: "#C9952A", letterSpacing: "0.04em" }}>
-                      {new Date(dream.date).toLocaleDateString("pl-PL", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
-                    </p>
-                    {/* Description */}
-                    <p className="text-sm font-serif leading-relaxed text-foreground">{dream.description}</p>
+                    <div className="space-y-1">
+                      <label className="parchment-label">Data</label>
+                      <input
+                        type="date"
+                        value={editDate}
+                        onChange={e => setEditDate(e.target.value)}
+                        className="parchment-input"
+                        data-testid={`input-edit-date-${dream.id}`}
+                      />
+                    </div>
 
-                    {/* Tags as gem buttons */}
-                    {Array.isArray(dream.tags) && dream.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-3">
-                        {dream.tags.map((tag, ti) => (
-                          <span key={tag} className="gem-tag" style={tagStyle(ti)}>
-                            ✦ {tag}
-                          </span>
+                    <div className="space-y-2">
+                      <label className="parchment-label">Emocja snu</label>
+                      <div className="grid grid-cols-9 gap-2 p-3 rounded-xl" style={{ background: "rgba(212,175,55,0.07)", border: "1px solid rgba(212,175,55,0.2)" }}>
+                        {FEELING_EMOJIS.map(emoji => (
+                          <button
+                            key={emoji}
+                            onClick={() => setEditFeeling(emoji)}
+                            className={`text-2xl hover:scale-125 transition-transform rounded-lg py-1 ${editFeeling === emoji ? "ring-2" : ""}`}
+                            style={editFeeling === emoji ? { background: "rgba(212,175,55,0.15)", outline: "2px solid rgba(212,175,55,0.6)" } : {}}
+                            data-testid={`emoji-edit-feeling-${emoji}`}
+                          >
+                            {emoji}
+                          </button>
                         ))}
                       </div>
-                    )}
-                  </div>
+                    </div>
 
-                  {/* Delete — visible on hover */}
-                  <button
-                    onClick={() => handleDelete(dream.id)}
-                    className="shrink-0 text-destructive transition-colors"
-                    data-testid={`button-delete-dream-${dream.id}`}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
+                    <div className="space-y-1">
+                      <label className="parchment-label">Opis snu</label>
+                      <textarea
+                        value={editDescription}
+                        onChange={e => setEditDescription(e.target.value)}
+                        rows={5}
+                        className="parchment-textarea"
+                        data-testid={`textarea-edit-description-${dream.id}`}
+                      />
+                    </div>
+
+                    <div className="flex gap-3 pt-1">
+                      <button
+                        onClick={() => handleUpdate(dream.id)}
+                        disabled={!editDescription.trim() || updateDream.isPending}
+                        className="btn-burgundy"
+                        data-testid={`button-save-edit-dream-${dream.id}`}
+                      >
+                        {updateDream.isPending ? "Zapisuję..." : "Zapisz zmiany"}
+                      </button>
+                      <button
+                        onClick={() => setEditingId(null)}
+                        className="btn-ghost"
+                        data-testid={`button-cancel-edit-dream-${dream.id}`}
+                      >
+                        Anuluj
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* ── Tryb podglądu ── */
+                  <div className="flex items-start gap-4">
+                    {/* Feeling emoji */}
+                    <span className="text-4xl shrink-0 mt-1">{dream.feeling}</span>
+
+                    <div className="flex-1 min-w-0">
+                      {/* Date */}
+                      <p className="text-xs font-sans mb-2" style={{ color: "#C9952A", letterSpacing: "0.04em" }}>
+                        {new Date(dream.date).toLocaleDateString("pl-PL", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+                      </p>
+                      {/* Description */}
+                      <p className="text-sm font-serif leading-relaxed text-foreground">{dream.description}</p>
+
+                      {/* Tags as gem buttons */}
+                      {Array.isArray(dream.tags) && dream.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-3">
+                          {dream.tags.map((tag, ti) => (
+                            <span key={tag} className="gem-tag" style={tagStyle(ti)}>
+                              ✦ {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Edit + Delete — visible on hover */}
+                    <div className="shrink-0 flex gap-2">
+                      <button
+                        onClick={() => startEdit(dream)}
+                        className="text-muted-foreground hover:text-amber-600 transition-colors"
+                        data-testid={`button-edit-dream-${dream.id}`}
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(dream.id)}
+                        className="text-destructive transition-colors"
+                        data-testid={`button-delete-dream-${dream.id}`}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {/* Bottom gold ornament */}
                 <div className="mt-4 pt-3 flex items-center gap-2" style={{ borderTop: "1px solid rgba(212,175,55,0.2)" }}>
