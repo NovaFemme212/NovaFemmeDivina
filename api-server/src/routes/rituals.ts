@@ -5,7 +5,7 @@ import { requireAuth } from "../middlewares/requireAuth";
 
 const router = Router();
 
-const today = () => new Date().toISOString().split("T")[0];
+const today = () => { const d = new Date(); const warsawOffset = 2 * 60 * 60 * 1000; const local = new Date(d.getTime() + warsawOffset); return local.toISOString().split("T")[0]; };
 
 const toRitual = (row: typeof ritualsTable.$inferSelect) => {
   const todayStr = today();
