@@ -124,7 +124,7 @@ function StatBubble({ symbol, label, value, sub, testId, pulsing }: {
 }) {
   return (
     <div className="stat-bubble" data-testid={testId}>
-      <span className={`stat-symbol${pulsing ? " flame-pulse" : ""}`}>{symbol}</span>
+      <span className={`stat-symbol${pulsing ? " flame-pulse" : ""}`} style={{ color: "#D4AF37" }}>{symbol}</span>
       <p
         className="text-2xl font-serif font-semibold leading-tight"
         style={{
