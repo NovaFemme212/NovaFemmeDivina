@@ -53,7 +53,6 @@ router.get("/dashboard", requireAuth, async (req, res) => {
       if (streak > longestStreak) longestStreak = streak;
       if (dateStr === sortedDates[0]) currentStreak = streak;
     }
-    if (sortedDates[0] !== todayStr) currentStreak = 0;
 
     res.json({
       todayAffirmation: {

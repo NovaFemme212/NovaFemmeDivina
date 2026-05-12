@@ -167,8 +167,6 @@ router.get("/rituals/streak", requireAuth, async (req, res) => {
       if (dateStr === sortedDates[0]) currentStreak = streak;
     }
 
-    if (sortedDates[0] !== todayStr) currentStreak = 0;
-
     res.json({
       currentStreak,
       longestStreak,
