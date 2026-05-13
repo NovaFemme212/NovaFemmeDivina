@@ -20626,11 +20626,11 @@ var require_router = __commonJS({
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
-    module.exports = Router8;
+    module.exports = Router9;
     module.exports.Route = Route;
-    function Router8(options) {
-      if (!(this instanceof Router8)) {
-        return new Router8(options);
+    function Router9(options) {
+      if (!(this instanceof Router9)) {
+        return new Router9(options);
       }
       const opts = options || {};
       function router9(req, res, next) {
@@ -20644,9 +20644,9 @@ var require_router = __commonJS({
       router9.stack = [];
       return router9;
     }
-    Router8.prototype = function() {
+    Router9.prototype = function() {
     };
-    Router8.prototype.param = function param(name, fn) {
+    Router9.prototype.param = function param(name, fn) {
       if (!name) {
         throw new TypeError("argument name is required");
       }
@@ -20666,7 +20666,7 @@ var require_router = __commonJS({
       params.push(fn);
       return this;
     };
-    Router8.prototype.handle = function handle(req, res, callback) {
+    Router9.prototype.handle = function handle(req, res, callback) {
       if (!callback) {
         throw new TypeError("argument callback is required");
       }
@@ -20793,7 +20793,7 @@ var require_router = __commonJS({
         }
       }
     };
-    Router8.prototype.use = function use(handler) {
+    Router9.prototype.use = function use(handler) {
       let offset = 0;
       let path = "/";
       if (typeof handler !== "function") {
@@ -20826,7 +20826,7 @@ var require_router = __commonJS({
       }
       return this;
     };
-    Router8.prototype.route = function route(path) {
+    Router9.prototype.route = function route(path) {
       const route2 = new Route(path);
       const layer = new Layer(path, {
         sensitive: this.caseSensitive,
@@ -20841,7 +20841,7 @@ var require_router = __commonJS({
       return route2;
     };
     methods.concat("all").forEach(function(method) {
-      Router8.prototype[method] = function(path) {
+      Router9.prototype[method] = function(path) {
         const route = this.route(path);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
@@ -21024,7 +21024,7 @@ var require_application = __commonJS({
     var compileTrust = require_utils3().compileTrust;
     var resolve = __require("node:path").resolve;
     var once = require_once();
-    var Router8 = require_router();
+    var Router9 = require_router();
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var app2 = exports = module.exports = {};
@@ -21040,7 +21040,7 @@ var require_application = __commonJS({
         enumerable: true,
         get: function getrouter() {
           if (router9 === null) {
-            router9 = new Router8({
+            router9 = new Router9({
               caseSensitive: this.enabled("case sensitive routing"),
               strict: this.enabled("strict routing")
             });
@@ -23697,7 +23697,7 @@ var require_express = __commonJS({
     var EventEmitter = __require("node:events").EventEmitter;
     var mixin = require_merge_descriptors();
     var proto = require_application();
-    var Router8 = require_router();
+    var Router9 = require_router();
     var req = require_request();
     var res = require_response();
     exports = module.exports = createApplication;
@@ -23719,8 +23719,8 @@ var require_express = __commonJS({
     exports.application = proto;
     exports.request = req;
     exports.response = res;
-    exports.Route = Router8.Route;
-    exports.Router = Router8;
+    exports.Route = Router9.Route;
+    exports.Router = Router9;
     exports.json = bodyParser.json;
     exports.raw = bodyParser.raw;
     exports.static = require_serve_static();
@@ -33587,7 +33587,7 @@ var require_http_proxy_middleware = __commonJS({
     var get_plugins_1 = require_get_plugins();
     var path_filter_1 = require_path_filter();
     var PathRewriter = require_path_rewriter();
-    var Router8 = require_router2();
+    var Router9 = require_router2();
     var debug_1 = require_debug2();
     var function_1 = require_function();
     var logger_1 = require_logger2();
@@ -33658,7 +33658,7 @@ var require_http_proxy_middleware = __commonJS({
         this.applyRouter = async (req, options2) => {
           let newTarget;
           if (options2.router) {
-            newTarget = await Router8.getTarget(req, options2);
+            newTarget = await Router9.getTarget(req, options2);
             if (newTarget) {
               (0, debug_1.Debug)('router new target: "%s"', newTarget);
               options2.target = newTarget;
@@ -39162,7 +39162,7 @@ var require_lib5 = __commonJS({
 });
 
 // src/app.ts
-var import_express9 = __toESM(require_express2(), 1);
+var import_express10 = __toESM(require_express2(), 1);
 var import_cors = __toESM(require_lib3(), 1);
 var import_pino_http = __toESM(require_logger(), 1);
 
@@ -47512,7 +47512,7 @@ function clerkProxyMiddleware() {
 }
 
 // src/routes/index.ts
-var import_express8 = __toESM(require_express2(), 1);
+var import_express9 = __toESM(require_express2(), 1);
 
 // src/routes/health.ts
 var import_express = __toESM(require_express2(), 1);
@@ -51567,12 +51567,12 @@ var GetDashboardResponse = objectType({
 });
 
 // src/routes/health.ts
-var router2 = (0, import_express.Router)();
-router2.get("/healthz", (_req, res) => {
+var router = (0, import_express.Router)();
+router.get("/healthz", (_req, res) => {
   const data = HealthCheckResponse.parse({ status: "ok" });
   res.json(data);
 });
-var health_default = router2;
+var health_default = router;
 
 // src/routes/affirmations.ts
 var import_express2 = __toESM(require_express2(), 1);
@@ -58591,14 +58591,14 @@ var pool = new Pool3({ connectionString: process.env.DATABASE_URL });
 var db = drizzle(pool, { schema: schema_exports });
 
 // src/routes/affirmations.ts
-var router3 = (0, import_express2.Router)();
+var router2 = (0, import_express2.Router)();
 var toAffirmation = (row) => ({
   id: row.id,
   text: row.text,
   category: row.category,
   author: row.author ?? null
 });
-router3.get("/affirmations/today", async (_req, res) => {
+router2.get("/affirmations/today", async (_req, res) => {
   try {
     const all = await db.select().from(affirmationsTable);
     if (all.length === 0) {
@@ -58610,7 +58610,7 @@ router3.get("/affirmations/today", async (_req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router3.get("/affirmations/random", async (_req, res) => {
+router2.get("/affirmations/random", async (_req, res) => {
   try {
     const all = await db.select().from(affirmationsTable);
     if (all.length === 0) {
@@ -58622,7 +58622,7 @@ router3.get("/affirmations/random", async (_req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-var affirmations_default = router3;
+var affirmations_default = router2;
 
 // src/routes/rituals.ts
 var import_express4 = __toESM(require_express2(), 1);
@@ -59744,7 +59744,7 @@ function requireAuth(req, res, next) {
 }
 
 // src/routes/rituals.ts
-var router4 = (0, import_express4.Router)();
+var router3 = (0, import_express4.Router)();
 var today = () => {
   const d = /* @__PURE__ */ new Date();
   const warsawOffset = 2 * 60 * 60 * 1e3;
@@ -59763,7 +59763,7 @@ var toRitual = (row) => {
     createdAt: row.createdAt.toISOString()
   };
 };
-router4.get("/rituals", requireAuth, async (req, res) => {
+router3.get("/rituals", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const rows = await db.select().from(ritualsTable).where(eq2(ritualsTable.userId, userId)).orderBy(ritualsTable.createdAt);
@@ -59772,7 +59772,7 @@ router4.get("/rituals", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router4.post("/rituals", requireAuth, async (req, res) => {
+router3.post("/rituals", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const { name, emoji } = req.body;
@@ -59785,7 +59785,7 @@ router4.post("/rituals", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router4.patch("/rituals/:id", requireAuth, async (req, res) => {
+router3.patch("/rituals/:id", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const id = Number(req.params.id);
@@ -59809,7 +59809,7 @@ router4.patch("/rituals/:id", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router4.delete("/rituals/:id", requireAuth, async (req, res) => {
+router3.delete("/rituals/:id", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const id = Number(req.params.id);
@@ -59819,7 +59819,7 @@ router4.delete("/rituals/:id", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router4.post("/rituals/seed", requireAuth, async (req, res) => {
+router3.post("/rituals/seed", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const existing = await db.select().from(ritualsTable).where(eq2(ritualsTable.userId, userId));
@@ -59837,7 +59837,7 @@ router4.post("/rituals/seed", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router4.get("/rituals/streak", requireAuth, async (req, res) => {
+router3.get("/rituals/streak", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const rows = await db.select().from(ritualsTable).where(eq2(ritualsTable.userId, userId));
@@ -59879,11 +59879,11 @@ router4.get("/rituals/streak", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-var rituals_default = router4;
+var rituals_default = router3;
 
 // src/routes/dreams.ts
 var import_express5 = __toESM(require_express2(), 1);
-var router5 = (0, import_express5.Router)();
+var router4 = (0, import_express5.Router)();
 var toDream = (row) => ({
   id: row.id,
   date: row.date,
@@ -59892,7 +59892,7 @@ var toDream = (row) => ({
   tags: Array.isArray(row.tags) ? row.tags : [],
   createdAt: row.createdAt.toISOString()
 });
-router5.get("/dreams", requireAuth, async (req, res) => {
+router4.get("/dreams", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const rows = await db.select().from(dreamsTable).where(eq2(dreamsTable.userId, userId)).orderBy(desc2(dreamsTable.createdAt));
@@ -59901,7 +59901,7 @@ router5.get("/dreams", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router5.post("/dreams", requireAuth, async (req, res) => {
+router4.post("/dreams", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const { date: date2, description, feeling, tags } = req.body;
@@ -59914,7 +59914,7 @@ router5.post("/dreams", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router5.patch("/dreams/:id", requireAuth, async (req, res) => {
+router4.patch("/dreams/:id", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const id = Number(req.params.id);
@@ -59931,7 +59931,7 @@ router5.patch("/dreams/:id", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router5.delete("/dreams/:id", requireAuth, async (req, res) => {
+router4.delete("/dreams/:id", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const id = Number(req.params.id);
@@ -59941,11 +59941,11 @@ router5.delete("/dreams/:id", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-var dreams_default = router5;
+var dreams_default = router4;
 
 // src/routes/journal.ts
 var import_express6 = __toESM(require_express2(), 1);
-var router6 = (0, import_express6.Router)();
+var router5 = (0, import_express6.Router)();
 var toEntry = (row) => ({
   id: row.id,
   title: row.title,
@@ -59954,7 +59954,7 @@ var toEntry = (row) => ({
   createdAt: row.createdAt.toISOString(),
   updatedAt: row.updatedAt.toISOString()
 });
-router6.get("/journal", requireAuth, async (req, res) => {
+router5.get("/journal", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const rows = await db.select().from(journalEntriesTable).where(eq2(journalEntriesTable.userId, userId)).orderBy(desc2(journalEntriesTable.createdAt));
@@ -59963,7 +59963,7 @@ router6.get("/journal", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router6.post("/journal", requireAuth, async (req, res) => {
+router5.post("/journal", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const { title, content, mood } = req.body;
@@ -59976,7 +59976,7 @@ router6.post("/journal", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router6.patch("/journal/:id", requireAuth, async (req, res) => {
+router5.patch("/journal/:id", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const id = Number(req.params.id);
@@ -59992,7 +59992,7 @@ router6.patch("/journal/:id", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-router6.delete("/journal/:id", requireAuth, async (req, res) => {
+router5.delete("/journal/:id", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const id = Number(req.params.id);
@@ -60002,16 +60002,18 @@ router6.delete("/journal/:id", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-var journal_default = router6;
+var journal_default = router5;
 
 // src/routes/dashboard.ts
+var import_express7 = __toESM(require_express2(), 1);
+var router6 = (0, import_express7.Router)();
 var today2 = () => {
   const d = /* @__PURE__ */ new Date();
   const warsawOffset = 2 * 60 * 60 * 1e3;
   const local = new Date(d.getTime() + warsawOffset);
   return local.toISOString().split("T")[0];
 };
-router.get("/dashboard", requireAuth, async (req, res) => {
+router6.get("/dashboard", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const todayStr = today2();
@@ -60085,11 +60087,11 @@ router.get("/dashboard", requireAuth, async (req, res) => {
     res.status(500).json({ error: "B\u0142\u0105d serwera." });
   }
 });
-var dashboard_default = router;
+var dashboard_default = router6;
 
 // src/routes/claim-legacy.ts
-var import_express7 = __toESM(require_express2(), 1);
-var router7 = (0, import_express7.Router)();
+var import_express8 = __toESM(require_express2(), 1);
+var router7 = (0, import_express8.Router)();
 router7.post("/claim-legacy", requireAuth, async (req, res) => {
   try {
     const userId = req.userId;
@@ -60112,7 +60114,7 @@ router7.post("/claim-legacy", requireAuth, async (req, res) => {
 var claim_legacy_default = router7;
 
 // src/routes/index.ts
-var router8 = (0, import_express8.Router)();
+var router8 = (0, import_express9.Router)();
 router8.use(health_default);
 router8.use(affirmations_default);
 router8.use(rituals_default);
@@ -60141,7 +60143,7 @@ var logger = (0, import_pino.default)({
 });
 
 // src/app.ts
-var app = (0, import_express9.default)();
+var app = (0, import_express10.default)();
 app.use(
   (0, import_pino_http.default)({
     logger,
@@ -60163,8 +60165,8 @@ app.use(
 );
 app.use(CLERK_PROXY_PATH, clerkProxyMiddleware());
 app.use((0, import_cors.default)({ credentials: true, origin: true }));
-app.use(import_express9.default.json());
-app.use(import_express9.default.urlencoded({ extended: true }));
+app.use(import_express10.default.json());
+app.use(import_express10.default.urlencoded({ extended: true }));
 app.use(clerkMiddleware());
 app.use("/api", routes_default);
 var app_default = app;
