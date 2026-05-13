@@ -148,24 +148,17 @@ router.get("/rituals/streak", requireAuth, async (req, res) => {
     let currentStreak = 0;
     let longestStreak = 0;
     let streak = 0;
-    let prevDate: Date | null = null;
-
-    for (const dateStr of sortedDates) {
-      const d = new Date(dateStr);
-      if (prevDate === null) {
-        streak = 1;
-      } else {
-        const diff = (prevDate.getTime() - d.getTime()) / (1000 * 60 * 60 * 24);
-        if (diff === 1) {
-          streak++;
-        } else {
-          streak = 1;
-        }
+    for (let i = 0; i < sortedDates.length; i++) {
+      if (i === 0) { streak = 1; }
+      else {
+        const a = new Date(sortedDates[i-1]);
+        const b = new Date(sortedDates[i]);
+        const diffDays = Math.round((a.getTime() - b.getTime()) / 86400000);
+        streak = diffDays === 1 ? streak + 1 : 1;
       }
-      prevDate = d;
       if (streak > longestStreak) longestStreak = streak;
-      if (dateStr === sortedDates[0]) currentStreak = streak;
     }
+    currentStreak = sortedDates.length > 0 ? streak : 0;
 
     res.json({
       currentStreak,
