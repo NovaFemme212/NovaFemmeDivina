@@ -158,7 +158,7 @@ router.get("/rituals/streak", requireAuth, async (req, res) => {
       }
       if (streak > longestStreak) longestStreak = streak;
     }
-    currentStreak = sortedDates.length > 0 ? streak : 0;
+   currentStreak = sortedDates.length > 0 ? longestStreak : 0;
 
     res.json({
       currentStreak,
