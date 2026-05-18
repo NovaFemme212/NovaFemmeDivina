@@ -137,7 +137,7 @@ function StatBubble({ symbol, label, value, sub, testId, pulsing }: {
         {value}
       </p>
       <p className="text-xs font-sans font-medium text-foreground mt-0.5">{label}</p>
-      <p className="text-xs text-muted-foreground font-sans">{sub}</p>
+      {sub && <p className="text-xs text-muted-foreground font-sans">{sub}</p>}
     </div>
   );
 }
