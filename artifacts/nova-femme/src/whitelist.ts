@@ -26,6 +26,7 @@ export const ALLOWED_EMAILS: readonly string[] = [
   "lanakaspro4@gmail.com",
   "justynaspizewska@gmail.com",
   "beatyl@op.pl",
+    "iks.agnieszka@gmail.com",
   // ↑ koniec listy ↑
 ];
 
