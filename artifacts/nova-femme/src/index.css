@@ -330,6 +330,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-content: center;
   gap: 0.6rem;
   color: #C9952A;
   font-size: 0.75rem;
@@ -452,6 +453,7 @@
 .oracle-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.65rem;
   padding: 0.75rem 2rem;
   border-radius: 9999px;
@@ -490,6 +492,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
 }
@@ -524,6 +527,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
   padding: 3rem 2rem;
   max-width: 480px;
@@ -535,11 +539,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
 }
 .landing-logo-sparkles {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.65rem;
 }
 .landing-logo-text {
@@ -572,6 +578,7 @@
 .landing-divider {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   width: 100%;
 }
@@ -596,12 +603,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-content: center;
   animation: sacred-pulse 4s ease-in-out infinite;
 }
 .landing-card-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.25rem;
   padding: 1rem;
 }
@@ -689,6 +698,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1.25rem;
   padding: 2.5rem 1rem;
   width: 100%;
@@ -697,6 +707,7 @@
 .auth-logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
 }
@@ -749,6 +760,7 @@
 .lunar-phase-badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45rem;
   margin-top: 0.25rem;
   background: linear-gradient(135deg, rgba(253,246,220,0.65) 0%, rgba(250,240,202,0.5) 100%);
@@ -834,6 +846,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.2rem;
   transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
 }
@@ -873,6 +886,7 @@
 .dream-preview-card {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.9rem;
   background: linear-gradient(135deg, #FEFAF0, #FBF6E2);
   border: 1px solid rgba(212,175,55,0.38);
@@ -1026,6 +1040,7 @@
 .gem-tag {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.2rem;
   font-family: 'Inter', sans-serif;
   font-size: 0.65rem;
@@ -1063,6 +1078,7 @@
 .btn-gold-outline {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   padding: 0.6rem 1.4rem;
   border-radius: 9999px;
@@ -1088,6 +1104,7 @@
 .btn-burgundy {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
   padding: 0.55rem 1.4rem;
   border-radius: 9999px;
@@ -1112,6 +1129,7 @@
 .btn-ghost {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
   padding: 0.55rem 1.4rem;
   border-radius: 9999px;
