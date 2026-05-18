@@ -270,10 +270,10 @@ export default function DashboardPage() {
           <StatBubble
             symbol="🔥"
             label="Płomień Intencji"
-            value={`${streak?.currentStreak ?? 0}`}
-            sub="dni w kręgu"
+            value=""
+            sub=""
             testId="stat-streak"
-            pulsing={(streak?.currentStreak ?? 0) >= 3}
+            pulsing={true}
           />
 
           {/* Ring progress for rituals */}
